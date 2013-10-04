@@ -255,7 +255,13 @@ public final class CommonUtils {
         }
 
         buffer.append(serverName);
-        buffer.append(request.getRequestURI());
+        
+        String originalURI = request.getAttribute(RequestDispatcher.FORWARD_REQUEST_URI);
+
+        if (originalURI == null) {
+            originalURI = request.getRequestURI();
+        
+        buffer.append(originalURI);
 
         if (CommonUtils.isNotBlank(request.getQueryString())) {
             final int location = request.getQueryString().indexOf(artifactParameterName + "=");
